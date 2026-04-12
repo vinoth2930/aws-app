@@ -1,28 +1,34 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 
-// Addition
+// ✅ Serve calculator HTML on root
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'calculator.html'));
+});
+
+// ✅ Addition
 app.get('/add', (req, res) => {
     const { num1, num2 } = req.query;
     res.json({ result: Number(num1) + Number(num2) });
 });
 
-// Subtraction
+// ✅ Subtraction
 app.get('/sub', (req, res) => {
     const { num1, num2 } = req.query;
     res.json({ result: Number(num1) - Number(num2) });
 });
 
-// Multiplication
+// ✅ Multiplication
 app.get('/mul', (req, res) => {
     const { num1, num2 } = req.query;
     res.json({ result: Number(num1) * Number(num2) });
 });
 
-// Division
+// ✅ Division
 app.get('/div', (req, res) => {
     const { num1, num2 } = req.query;
 
@@ -33,6 +39,8 @@ app.get('/div', (req, res) => {
     res.json({ result: Number(num1) / Number(num2) });
 });
 
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+// ✅ Start server
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
