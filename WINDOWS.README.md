@@ -36,7 +36,7 @@ Test it locally inside the EC2 by opening a browser and visiting http://localhos
 
 Step 5 — App works locally but not from outside?
 If the app runs fine inside the EC2 but is unreachable from your mobile or other devices, the Windows Firewall is blocking outside traffic. Run this in PowerShell to open the port:
-powershellnetsh.exe advfirewall firewall add rule name="Nodejs Port 80" dir=in action=allow protocol=TCP localport=80
+netsh.exe advfirewall firewall add rule name="Nodejs Port 80" dir=in action=allow protocol=TCP localport=80
 Then verify the AWS Security Group also has an inbound rule allowing the same port (80 or 3000).
 
 Step 6 — Keep Node.js running permanently
@@ -44,3 +44,10 @@ By default, Node.js stops when you close PowerShell. Install PM2 to keep it runn
 powershellnpm install -g pm2
 pm2 start server.js --name myapp
 pm2 save
+
+
+Troubleshoot the windows firewall:
+1. netsh.exe advfirewall set allprofiles state off
+2. Test-NetConnection -ComputerName 10.0.1.104 -Port 3000
+3. netsh.exe advfirewall set allprofiles state on
+4. netsh.exe advfirewall firewall add rule name="Nodejs Port 3000" dir=in action=allow protocol=TCP localport=3000
